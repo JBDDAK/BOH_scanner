@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이상혁이 만든 짱짱 멋진 웹사이트</title>
+
+    <link rel="shortcut icon" href="../static/img/favicon.jpg">
+    <link rel="stylesheet" href="../static/css/style.css?ver=2">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div class="back"></div>
+    <!-- 헤더 -->
+    <header id="header">
+        <div class="container">
+            <h1>이정훈이 만든 허접한 얼굴 인식</h1>
+        </div>
+    </header>
+
+    <!-- 메인 -->
+    <main id="main">
+        <div class="container">
+            <div class="row">
+                <!-- 정형돈 -->
+                <div class="left">
+                    <img src="../static/img/pig.png" alt="정형돈">
+                </div>
+
+                <!-- 중앙 -->
+                <div class="center">
+                    <div class="cover">
+                        <!-- 애니메이션 -->
+                        <div class="bar_box">
+                            <div class="bar"></div>
+                        </div>
+                        <p>분석중... 잠시만 기다려주세요.</p>
+                    </div>
+                    <form action="http://localhost:5000/fileUpload" method="POST" enctype="multipart/form-data">
+                        <label for="exfile">업로드</label>
+                        <input type="file" name="file" id="exfile" multiple accept='image/*' />
+                        <div id='preview'></div>
+                        <input type="submit" id="result" value="결과보기" style="font-family: 'Jua', sans-serif;"
+                            onclick="remove()" />
+                    </form>
+                </div>
+
+                <!-- 비 -->
+                <div class="right">
+                    <img src="../static/img/rain.png" alt="비">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- <footer id="footer">
+
+        </footer> -->
+    </div>
+
+    <script>
+        var upload = document.querySelector('#exfile');
+        var preview = document.querySelector('#preview');
+
+        upload.addEventListener('change', function (e) {
+
+            $('#preview img').remove()
+
+            var get_file = e.target.files;
+            console.log(get_file)
+            var image = document.createElement('img');
+
+            /* FileReader 객체 생성 */
+            var reader = new FileReader();
+
+            /* reader 시작시 함수 구현 */
+            reader.onload = (function (aImg) {
+                // console.log(1);
+
+                return function (e) {
+                    // console.log(3);
+                    /* base64 인코딩 된 스트링 데이터 */
+                    aImg.src = e.target.result
+                }
+            })(image)
+
+            if (get_file) {
+                /* 
+                    get_file[0] 을 읽어서 read 행위가 종료되면 loadend 이벤트가 트리거 되고 
+                    onload 에 설정했던 return 으로 넘어간다.
+                    이와 함게 base64 인코딩 된 스트링 데이터가 result 속성에 담겨진다.
+                */
+                reader.readAsDataURL(get_file[0]);
+                // console.log(2);
+            }
+
+            preview.appendChild(image);
+        })
+
+
+        function remove() {
+            $('form').css('display', 'none')
+            $('.cover').css('display', 'block')
+            $('.bar').css('display', 'block')
+        }
+    </script>
+</body>
+
+</html>
